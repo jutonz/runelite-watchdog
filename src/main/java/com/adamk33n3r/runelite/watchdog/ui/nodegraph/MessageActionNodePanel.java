@@ -11,6 +11,7 @@ import com.adamk33n3r.runelite.watchdog.ui.panels.NotificationPanelFactory;
 
 import lombok.Getter;
 
+import javax.swing.JComponent;
 import java.awt.Color;
 
 /**
@@ -46,5 +47,9 @@ public class MessageActionNodePanel extends ActionNodePanel {
     @Override
     protected void configureContentPanel(NotificationContentPanel<?> contentPanel) {
         contentPanel.setMessageFieldHidden(true);
+        JComponent messageFieldSuffix = contentPanel.getMessageFieldSuffix();
+        if (messageFieldSuffix != null) {
+            this.messageInput.setSuffix(messageFieldSuffix);
+        }
     }
 }

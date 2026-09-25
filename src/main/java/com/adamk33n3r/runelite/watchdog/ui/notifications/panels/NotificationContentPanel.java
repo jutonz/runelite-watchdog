@@ -9,6 +9,7 @@ import net.runelite.client.ui.ColorScheme;
 import lombok.Getter;
 
 import javax.annotation.Nullable;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Component;
@@ -27,6 +28,9 @@ public abstract class NotificationContentPanel<T extends Notification> extends J
 
     @Nullable
     private FlatTextArea messageField;
+    @Getter
+    @Nullable
+    private JComponent messageFieldSuffix;
     private boolean messageFieldHidden;
 
     protected NotificationContentPanel(T notification, Runnable onChange) {
@@ -59,6 +63,7 @@ public abstract class NotificationContentPanel<T extends Notification> extends J
     public void rebuild() {
         this.removeAll();
         this.messageField = null;
+        this.messageFieldSuffix = null;
         this.buildContent();
         this.applyMessageFieldVisibility();
         this.revalidate();
@@ -83,6 +88,16 @@ public abstract class NotificationContentPanel<T extends Notification> extends J
     protected FlatTextArea setMessageField(FlatTextArea messageField) {
         this.messageField = messageField;
         return messageField;
+    }
+
+    /**
+     * Registers a control that belongs beside the message rather than to the message row itself, so it
+     * survives {@link #setMessageFieldHidden}. Returns the control so subclasses can wrap their
+     * {@code add} call.
+     */
+    protected <C extends JComponent> C setMessageFieldSuffix(C messageFieldSuffix) {
+        this.messageFieldSuffix = messageFieldSuffix;
+        return messageFieldSuffix;
     }
 
     /**

@@ -54,7 +54,10 @@ public class ActionNodePanel extends NodePanel {
         if (contentPanel != null) {
             this.configureContentPanel(contentPanel);
             if (contentPanel.getComponentCount() > 0) {
-                contentPanel.setOnRebuild(this::pack);
+                contentPanel.setOnRebuild(() -> {
+                    this.configureContentPanel(contentPanel);
+                    this.pack();
+                });
                 this.items.add(contentPanel);
             }
         }
